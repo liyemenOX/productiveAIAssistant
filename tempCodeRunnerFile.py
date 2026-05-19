@@ -1,30 +1,32 @@
+
+import dbm
+
 print("Hello user, i am your assistant, how can i help you?")
 
-user = input("enter your name user: ")
-print("thankyou for sharing your details here  " + user + " i will use this information to assist you better\n")
+
+DB_FILE = "ai memory"
+
+def save_chat(user_id, history_data):
+    with dbm.open(DB_FILE, "c") as db:
+        db[user_id] = history_data
+        
+def load_chat(user_id):
+     with dbm.open(DB_FILE,"c") as db:
+         if user_id.encode("utf-8") in db:
+             return db[user_id].decode("utf-8")
+         return ""
 
 
-def greet():
-        length = len(user)
-        if(length > 10):
-            print("hey user your name is too lengthy\n")
-        elif(length < 5):
-            print("huh !! your name is too short buddy\n")
-        else:
-            print("hey! user your name is of satisfactory length\n")
-        def integrate():
-            print(" I was just joking please don't mind it....")
-
-        integrate()
-
-greet()
-
-
-
-
-
-
+existing_name = load_chat("saved_username")
+if existing_name:
+    print("Welcome back" + existing_name + "i remember you")
     
+else:
+    user = input("enter you name")
+    save_chat("saved_username",user)
+
+
+
 
 
 
